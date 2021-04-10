@@ -3,7 +3,7 @@
 ## How to get started:
 
 ### Step 1:
-First, download and install the latest Node.js version on your computer -> (Node.js website)![https://nodejs.org/en/]  
+First, download and install the latest Node.js version on your computer -> [Node.js website](https://nodejs.org/en/)  
 Run the command:
 ```bash
 npm i -g npm
