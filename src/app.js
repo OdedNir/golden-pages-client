@@ -6,11 +6,13 @@ import HeaderComponent from "./components/header/header-component";
 import LandingComponent from "./components/landing/landing-component";
 import CardsListComponent from "./components/cards-list/cards-list-component";
 import SignInComponent from "./components/sign-in/sign-in-component";
+import LoginComponent from "./components/login/login-component";
 
 import "./app.scss";
 
 const App = () => {
   const [data, setData] = useState(null);
+  const [user, setUser] = useState(localStorage.getItem("user"));
 
   const splitDataByType = (type) => {
     return filter(data, (item) => {
@@ -29,12 +31,12 @@ const App = () => {
   };
 
   useEffect(() => {
-    getData();
+    user && getData();
   }, []);
 
   return (
     <Router id="app">
-      <HeaderComponent />
+      <HeaderComponent user={user} />
       <Switch>
         <Route path="/professionals">
           <CardsListComponent data={splitDataByType("Professional")} />
@@ -49,7 +51,11 @@ const App = () => {
         </Route>
 
         <Route path="/signIn">
-          <SignInComponent />
+          <SignInComponent setUser={setUser} />
+        </Route>
+
+        <Route path="/login">
+          <LoginComponent setUser={setUser} />
         </Route>
 
         <Route path="/">

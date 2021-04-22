@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, makeStyles, TextField, Typography } from "@material-ui/core";
 
-import "./sign-in-component.scss";
-
-const USER_ROLE = "PLAYER";
+import "./login-component.scss";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -15,21 +13,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignInComponent = (props) => {
+const LoginComponent = (props) => {
   const { setUser } = props;
 
   const classes = useStyles();
   const history = useHistory();
 
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  const [space, setSpace] = useState("");
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
 
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
+  const handleSpaceChange = (e) => {
+    setSpace(e.target.value);
   };
 
   const isEmailValid = () => {
@@ -37,12 +35,12 @@ const SignInComponent = (props) => {
     return !!email && re.test(email.toLowerCase());
   };
 
-  const isUsernameValid = () => {
-    return !!username;
+  const isSpaceValid = () => {
+    return !!space;
   };
 
   const isInputsValid = () => {
-    return isEmailValid() && isUsernameValid();
+    return isEmailValid() && isSpaceValid();
   };
 
   const handleKeyDown = (e) => {
@@ -53,32 +51,23 @@ const SignInComponent = (props) => {
       return;
     }
 
-    if (!isUsernameValid()) {
-      document.getElementById("username").focus();
+    if (!isSpaceValid()) {
+      document.getElementById("space").focus();
       return;
     }
 
-    signIn();
+    login();
   };
 
-  const signIn = async () => {
-    const response = await fetch(`${process.env.API_ENDPOINT}/twins/users`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        role: USER_ROLE,
-        username,
-        avatar: username,
-      }),
-    });
+  const login = async () => {
+    const response = await fetch(
+      `${process.env.API_ENDPOINT}/twins/users/login/${space}/${email}`
+    );
 
     if (!!response) {
       const result = await response.json();
       if (result.error) {
-        alert("User already exists!\nEnter different details!");
+        alert("No user with these details!");
         return;
       }
       localStorage.setItem("user", result);
@@ -88,9 +77,9 @@ const SignInComponent = (props) => {
   };
 
   return (
-    <div id="sign-in-component">
+    <div id="login-component">
       <div id="fields-wrapper">
-        <Typography className={classes.title}>Create Your Account</Typography>
+        <Typography className={classes.title}>Login To Your Account</Typography>
 
         <TextField
           className={classes.field}
@@ -105,12 +94,12 @@ const SignInComponent = (props) => {
 
         <TextField
           className={classes.field}
-          id="username"
+          id="space"
           required
-          label="Enter username"
-          placeholder="username"
-          value={username}
-          onChange={handleUsernameChange}
+          label="Enter space"
+          placeholder="space"
+          value={space}
+          onChange={handleSpaceChange}
           onKeyDown={handleKeyDown}
         />
 
@@ -118,13 +107,13 @@ const SignInComponent = (props) => {
           disabled={!isInputsValid()}
           variant="contained"
           color="primary"
-          onClick={signIn}
+          onClick={login}
         >
-          Sign In
+          Log In
         </Button>
       </div>
     </div>
   );
 };
 
-export default SignInComponent;
+export default LoginComponent;

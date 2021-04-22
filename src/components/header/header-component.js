@@ -31,12 +31,20 @@ const useStyles = makeStyles((theme) => ({
   mainHeader: {
     textTransform: "none",
   },
-  signInButton: {
+  actions: {
+    marginLeft: "auto",
+  },
+  actionButton: {
+    marginLeft: 4,
+  },
+  accountButton: {
     marginLeft: "auto",
   },
 }));
 
-const HeaderComponent = () => {
+const HeaderComponent = (props) => {
+  const { user } = props;
+
   const classes = useStyles();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -91,14 +99,36 @@ const HeaderComponent = () => {
             </Typography>
           </Button>
 
-          <IconButton
-            component={Link}
-            to={"/signIn"}
-            className={classes.signInButton}
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
+          {user ? (
+            <IconButton
+              // component={Link}
+              // to={"/signIn"}
+              className={classes.accountButton}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          ) : (
+            <div className={classes.actions}>
+              <Button
+                className={classes.actionButton}
+                component={Link}
+                to={"/signIn"}
+                color="inherit"
+              >
+                Sign In
+              </Button>
+
+              <Button
+                className={classes.actionButton}
+                component={Link}
+                to={"/logIn"}
+                color="inherit"
+              >
+                Log In
+              </Button>
+            </div>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer anchor="left" open={isMenuOpen} onClose={toggleDrawer}>
