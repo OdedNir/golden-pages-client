@@ -7,12 +7,13 @@ import LandingComponent from "./components/landing/landing-component";
 import CardsListComponent from "./components/cards-list/cards-list-component";
 import SignInComponent from "./components/sign-in/sign-in-component";
 import LoginComponent from "./components/login/login-component";
+import UserProfileComponent from "./components/user-profile/user-profile-component";
 
 import "./app.scss";
 
 const App = () => {
   const [data, setData] = useState(null);
-  const [user, setUser] = useState(localStorage.getItem("user"));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   const splitDataByType = (type) => {
     return filter(data, (item) => {
@@ -56,6 +57,10 @@ const App = () => {
 
         <Route path="/login">
           <LoginComponent setUser={setUser} />
+        </Route>
+
+        <Route path="/user">
+          <UserProfileComponent user={user} setUser={setUser} />
         </Route>
 
         <Route path="/">

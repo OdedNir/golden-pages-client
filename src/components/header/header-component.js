@@ -101,8 +101,8 @@ const HeaderComponent = (props) => {
 
           {user ? (
             <IconButton
-              // component={Link}
-              // to={"/signIn"}
+              component={Link}
+              to={"/user"}
               className={classes.accountButton}
               color="inherit"
             >

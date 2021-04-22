@@ -70,7 +70,7 @@ const LoginComponent = (props) => {
         alert("No user with these details!");
         return;
       }
-      localStorage.setItem("user", result);
+      localStorage.setItem("user", JSON.stringify(result));
       setUser(result);
       history.push("/");
     }
@@ -79,7 +79,7 @@ const LoginComponent = (props) => {
   return (
     <div id="login-component">
       <div id="fields-wrapper">
-        <Typography className={classes.title}>Login To Your Account</Typography>
+        <Typography className={classes.title}>Login to your account</Typography>
 
         <TextField
           className={classes.field}

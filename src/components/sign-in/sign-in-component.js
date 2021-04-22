@@ -81,7 +81,7 @@ const SignInComponent = (props) => {
         alert("User already exists!\nEnter different details!");
         return;
       }
-      localStorage.setItem("user", result);
+      localStorage.setItem("user", JSON.stringify(result));
       setUser(result);
       history.push("/");
     }
@@ -90,7 +90,7 @@ const SignInComponent = (props) => {
   return (
     <div id="sign-in-component">
       <div id="fields-wrapper">
-        <Typography className={classes.title}>Create Your Account</Typography>
+        <Typography className={classes.title}>Create your account</Typography>
 
         <TextField
           className={classes.field}
