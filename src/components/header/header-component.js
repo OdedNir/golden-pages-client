@@ -11,9 +11,11 @@ import {
   ListItemText,
   ListItemIcon,
   Button,
+  Divider,
 } from "@material-ui/core";
-import { Menu, Person, Business, Settings } from "@material-ui/icons";
+import { Menu, AccountCircle } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import ENTITIES_CONSTANTS from "../../constants/entities";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -22,11 +24,15 @@ const useStyles = makeStyles((theme) => ({
   list: {
     width: 250,
   },
-  menuHeader: {
-    marginBottom: theme.spacing(2),
+  listItem: {
+    paddingTop: 16,
+    paddingBottom: 16,
   },
   mainHeader: {
     textTransform: "none",
+  },
+  signInButton: {
+    marginLeft: "auto",
   },
 }));
 
@@ -43,6 +49,25 @@ const HeaderComponent = () => {
     }
 
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const renderListItems = () => {
+    return ENTITIES_CONSTANTS.map((ENTITY, index) => {
+      return (
+        <ListItem
+          className={classes.listItem}
+          component={Link}
+          to={ENTITY.plural.toLowerCase()}
+          key={index}
+          button
+        >
+          <ListItemIcon>
+            <ENTITY.Icon />
+          </ListItemIcon>
+          <ListItemText primary={ENTITY.plural} />
+        </ListItem>
+      );
+    });
   };
 
   return (
@@ -65,34 +90,25 @@ const HeaderComponent = () => {
               Golden Pages
             </Typography>
           </Button>
+
+          <IconButton
+            component={Link}
+            to={"/signIn"}
+            className={classes.signInButton}
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer anchor="left" open={isMenuOpen} onClose={toggleDrawer}>
         <List className={classes.list}>
-          <ListItem className={classes.menuHeader}>
+          <ListItem className={classes.listItem}>
             <Typography variant="h6">Golden Pages Menu</Typography>
           </ListItem>
+          <Divider />
 
-          <ListItem component={Link} to={"/professionals"} button>
-            <ListItemIcon>
-              <Person />
-            </ListItemIcon>
-            <ListItemText primary="Professionals" />
-          </ListItem>
-
-          <ListItem component={Link} to={"/businesses"} button>
-            <ListItemIcon>
-              <Business />
-            </ListItemIcon>
-            <ListItemText primary="Businesses" />
-          </ListItem>
-
-          <ListItem component={Link} to={"/services"} button>
-            <ListItemIcon>
-              <Settings />
-            </ListItemIcon>
-            <ListItemText primary="Services" />
-          </ListItem>
+          {renderListItems()}
         </List>
       </Drawer>
     </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import { IconButton } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
 
 import "./landing-component.scss";
@@ -10,7 +11,11 @@ const LandingComponent = () => {
         Welcome to the <span className="gold">Golden Pages</span> Website!
       </div>
       <div className="header">
-        Feel free to navigate using the <Menu /> above:
+        Feel free to navigate using the{" "}
+        <IconButton>
+          <Menu />
+        </IconButton>{" "}
+        above.
       </div>
     </div>
   );

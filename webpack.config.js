@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   // the output bundle won't be optimized for production but suitable for development
@@ -15,15 +16,10 @@ module.exports = {
   module: {
     rules: [
       {
-        // for any file with a suffix of js or jsx
-        test: /\.jsx?$/,
-        // ignore transpiling JavaScript from node_modules as it should be that state
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        // use the babel-loader for transpiling JavaScript to a suitable format
-        loader: "babel-loader",
-        options: {
-          // attach the presets to the loader (most projects use .babelrc file instead)
-          presets: ["@babel/preset-env", "@babel/preset-react"],
+        use: {
+          loader: "babel-loader",
         },
       },
       {
@@ -42,7 +38,12 @@ module.exports = {
   // add a custom index.html as the template
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "src", "index.html"),
+      // template: path.resolve(__dirname, "src", "index.html"),
+      template: "./src/index.html",
+      publicPath: "/",
+    }),
+    new Dotenv({
+      path: "./configurations/dev.env",
     }),
   ],
   devServer: {
