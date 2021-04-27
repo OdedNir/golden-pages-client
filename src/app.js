@@ -22,8 +22,10 @@ const App = () => {
   };
 
   const getData = async () => {
+    const { space, email } = user.userId;
+
     const response = await fetch(
-      `${process.env.API_ENDPOINT}/twins/items/userSpace/userEmail`
+      `${process.env.API_ENDPOINT}/twins/items/${space}/${email}`
     );
 
     const result = await response.json();
