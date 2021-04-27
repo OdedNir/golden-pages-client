@@ -4,6 +4,11 @@
 
 ### Step 1:
 First, download and install the latest Node.js version on your computer -> [Node.js website](https://nodejs.org/en/)  
+
+Download VS Code -> [VS Code website](https://code.visualstudio.com/)  
+
+Inside VS Code, clone this repository and open the terminal.  
+
 Run the command:
 ```bash
 npm i -g npm
