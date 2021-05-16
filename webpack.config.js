@@ -1,6 +1,8 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
+const webpack = require("webpack");
 
 module.exports = {
   // the output bundle won't be optimized for production but suitable for development
@@ -37,6 +39,7 @@ module.exports = {
   },
   // add a custom index.html as the template
   plugins: [
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       // template: path.resolve(__dirname, "src", "index.html"),
       template: "./src/index.html",
@@ -44,6 +47,9 @@ module.exports = {
     }),
     new Dotenv({
       path: "./configurations/dev.env",
+    }),
+    new webpack.ProvidePlugin({
+      React: "react",
     }),
   ],
   devServer: {

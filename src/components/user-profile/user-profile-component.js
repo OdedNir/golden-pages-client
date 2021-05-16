@@ -1,7 +1,8 @@
-import { Button, makeStyles, Typography } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 import { ExitToApp } from "@material-ui/icons";
-import React, { useEffect } from "react";
+import React from "react";
 import { useHistory } from "react-router";
+import WarnButton from "components/warn-button/warn-button";
 
 import "./user-profile-component.scss";
 
@@ -15,8 +16,12 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 200,
   },
   attrValue: {
-    fontSize: 32,
-    fontWeight: 500,
+    fontSize: 24,
+    fontWeight: 400,
+  },
+  logoutBotton: {
+    marginBottom: 16,
+    width: 200,
   },
 }));
 
@@ -37,7 +42,7 @@ const UserProfileComponent = (props) => {
 
   return (
     <div id="user-profile-component">
-      <Typography className={classes.header} variant="h2">
+      <Typography className={classes.header} variant="h4">
         User Profile
       </Typography>
 
@@ -57,18 +62,23 @@ const UserProfileComponent = (props) => {
       </div>
 
       <div className="attr-wrapper">
+        <Typography className={classes.attrName}>{"Avatar"}</Typography>
+        <Typography className={classes.attrValue}>{avatar}</Typography>
+      </div>
+
+      <div className="attr-wrapper">
         <Typography className={classes.attrName}>{"Role"}</Typography>
         <Typography className={classes.attrValue}>{role}</Typography>
       </div>
 
-      <Button
+      <WarnButton
+        className={classes.logoutBotton}
         startIcon={<ExitToApp />}
-        color="secondary"
         variant="contained"
         onClick={logout}
       >
         Log Out
-      </Button>
+      </WarnButton>
     </div>
   );
 };

@@ -24,16 +24,17 @@ const useStyles = makeStyles((theme) => ({
 
 const CardComponent = (props) => {
   const { item } = props;
+  const { type, name } = item;
   const classes = useStyles();
 
   return (
     <Card className={classes.card}>
       <CardContent>
         <Typography className={classes.text} color="textSecondary">
-          {item.type}
+          {type}
         </Typography>
         <Typography className={classes.text} variant="h5">
-          {item.name}
+          {name}
         </Typography>
       </CardContent>
       <CardActions>

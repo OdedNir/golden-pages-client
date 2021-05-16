@@ -1,33 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   makeStyles,
   AppBar,
   Toolbar,
   IconButton,
   Typography,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
   Button,
-  Divider,
 } from "@material-ui/core";
-import { Menu, AccountCircle } from "@material-ui/icons";
+import { AccountCircle } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import ENTITIES_CONSTANTS from "../../constants/entities";
 
 const useStyles = makeStyles((theme) => ({
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  list: {
-    width: 250,
-  },
-  listItem: {
-    paddingTop: 16,
-    paddingBottom: 16,
-  },
   mainHeader: {
     textTransform: "none",
   },
@@ -40,59 +23,20 @@ const useStyles = makeStyles((theme) => ({
   accountButton: {
     marginLeft: "auto",
   },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
 }));
 
 const HeaderComponent = (props) => {
   const { user } = props;
 
   const classes = useStyles();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleDrawer = (event) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const renderListItems = () => {
-    return ENTITIES_CONSTANTS.map((ENTITY, index) => {
-      return (
-        <ListItem
-          className={classes.listItem}
-          component={Link}
-          to={ENTITY.plural.toLowerCase()}
-          key={index}
-          button
-        >
-          <ListItemIcon>
-            <ENTITY.Icon />
-          </ListItemIcon>
-          <ListItemText primary={ENTITY.plural} />
-        </ListItem>
-      );
-    });
-  };
 
   return (
     <div>
-      <AppBar position="fixed">
+      <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            className={classes.menuButton}
-            onClick={() => {
-              setIsMenuOpen(!isMenuOpen);
-            }}
-          >
-            <Menu />
-          </IconButton>
-
           <Button component={Link} to={"/"} color="inherit">
             <Typography className={classes.mainHeader} variant="h6">
               Golden Pages
@@ -131,16 +75,6 @@ const HeaderComponent = (props) => {
           )}
         </Toolbar>
       </AppBar>
-      <Drawer anchor="left" open={isMenuOpen} onClose={toggleDrawer}>
-        <List className={classes.list}>
-          <ListItem className={classes.listItem}>
-            <Typography variant="h6">Golden Pages Menu</Typography>
-          </ListItem>
-          <Divider />
-
-          {renderListItems()}
-        </List>
-      </Drawer>
     </div>
   );
 };

@@ -1,10 +1,24 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Button, makeStyles, TextField, Typography } from "@material-ui/core";
+import {
+  Button,
+  makeStyles,
+  MenuItem,
+  InputLabel,
+  Select,
+  TextField,
+  Typography,
+} from "@material-ui/core";
+
+// import Avatars from "./sign-in-service";
 
 import "./sign-in-component.scss";
 
-const USER_ROLE = "PLAYER";
+const USER_ROLES = {
+  PLAYER: "PLAYER",
+  MANAGER: "MANAGER",
+  ADMIN: "ADMIN",
+};
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -23,6 +37,8 @@ const SignInComponent = (props) => {
 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
+  const [role, setRole] = useState(USER_ROLES.PLAYER);
+  // const [avatar, setAvatar] = useState(Avatars.AVATAR1);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -31,6 +47,14 @@ const SignInComponent = (props) => {
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
+
+  const handleRoleChange = (e) => {
+    setRole(e.target.value);
+  };
+
+  // const handleAvatarChange = (e) => {
+  //   setAvatar(e.target.value);
+  // };
 
   const isEmailValid = () => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -69,7 +93,7 @@ const SignInComponent = (props) => {
       },
       body: JSON.stringify({
         email,
-        role: USER_ROLE,
+        role,
         username,
         avatar: username,
       }),
@@ -113,6 +137,35 @@ const SignInComponent = (props) => {
           onChange={handleUsernameChange}
           onKeyDown={handleKeyDown}
         />
+
+        <div className={classes.field}>
+          <InputLabel shrink>Role</InputLabel>
+          <Select
+            value={role}
+            onChange={handleRoleChange}
+            style={{ width: "100%" }}
+          >
+            <MenuItem value={USER_ROLES.PLAYER}>{USER_ROLES.PLAYER}</MenuItem>
+            <MenuItem value={USER_ROLES.MANAGER}>{USER_ROLES.MANAGER}</MenuItem>
+            <MenuItem value={USER_ROLES.ADMIN}>{USER_ROLES.ADMIN}</MenuItem>
+          </Select>
+        </div>
+
+        {/* <div className={classes.field}>
+          <InputLabel shrink>Avatar</InputLabel>
+          <Select
+            value={avatar}
+            onChange={handleAvatarChange}
+            style={{ width: "100%" }}
+          >
+            <MenuItem value={Avatars.Avatar1}>{Avatars.Avatar1}</MenuItem>
+            <MenuItem value={Avatars.Avatar2}>{Avatars.Avatar2}</MenuItem>
+            <MenuItem value={Avatars.Avatar3}>{Avatars.Avatar3}</MenuItem>
+            <MenuItem value={Avatars.Avatar4}>{Avatars.Avatar4}</MenuItem>
+            <MenuItem value={Avatars.Avatar5}>{Avatars.Avatar5}</MenuItem>
+            <MenuItem value={Avatars.Avatar6}>{Avatars.Avatar6}</MenuItem>
+          </Select>
+        </div> */}
 
         <Button
           disabled={!isInputsValid()}
