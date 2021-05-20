@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MenuComponent = (props) => {
+  const { isLoggedin } = props;
   const classes = useStyles();
 
   const renderListItems = () => {
@@ -35,7 +36,7 @@ const MenuComponent = (props) => {
         <ListItem
           className={classes.listItem}
           component={Link}
-          to={ENTITY.plural.toLowerCase()}
+          to={isLoggedin ? ENTITY.plural.toLowerCase() : "/"}
           key={index}
           button
         >

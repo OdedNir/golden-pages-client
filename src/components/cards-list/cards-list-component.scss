@@ -1,8 +1,20 @@
 .cards-list-component {
-  height: 100%;
   width: 100%;
+  height: 100%;
   padding: 80px 16px 16px 16px;
-  display: flex;
-  flex-wrap: wrap;
-  overflow: auto;
+
+  .card-list-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: scroll;
+    padding-bottom: 16px;
+  }
+
+  .button-wrapper {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }

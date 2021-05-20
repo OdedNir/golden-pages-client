@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import filter from "lodash/filter";
 
 import HeaderComponent from "./components/header/header-component";
 import LandingComponent from "./components/landing/landing-component";
@@ -8,53 +7,37 @@ import CardsListComponent from "./components/cards-list/cards-list-component";
 import SignInComponent from "./components/sign-in/sign-in-component";
 import LoginComponent from "./components/login/login-component";
 import UserProfileComponent from "./components/user-profile/user-profile-component";
-
-import "./app.scss";
 import MenuComponent from "./components/menu/menu-component";
 
+import "./app.scss";
+
 const App = () => {
-  const [data, setData] = useState(null);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
-  const splitDataByType = (type) => {
-    return filter(data, (item) => {
-      return item.type === type;
-    });
-  };
-
-  const getData = async () => {
-    const { space, email } = user.userId;
-
-    const response = await fetch(
-      `${process.env.API_ENDPOINT}/twins/items/${space}/${email}`
-    );
-
-    const result = await response.json();
-
-    result && setData(result);
-  };
-
-  useEffect(() => {
-    user && getData();
-  }, []);
+  const isLoggedin = !!user;
 
   return (
     <Router>
       <HeaderComponent user={user} />
       <div className="content">
-        <MenuComponent />
+        <MenuComponent isLoggedin={isLoggedin} />
         <Switch>
-          <Route path="/professionals">
-            <CardsListComponent data={splitDataByType("Professional")} />
-          </Route>
+          <Route
+            path="/professionals"
+            component={() => (
+              <CardsListComponent user={user} type="Professional" />
+            )}
+          ></Route>
 
-          <Route path="/businesses">
-            <CardsListComponent data={splitDataByType("Business")} />
-          </Route>
+          <Route
+            path="/businesses"
+            component={() => <CardsListComponent user={user} type="Business" />}
+          ></Route>
 
-          <Route path="/services">
-            <CardsListComponent data={splitDataByType("Service")} />
-          </Route>
+          <Route
+            path="/services"
+            component={() => <CardsListComponent user={user} />}
+          ></Route>
 
           <Route path="/signIn">
             <SignInComponent setUser={setUser} />
@@ -69,7 +52,7 @@ const App = () => {
           </Route>
 
           <Route path="/">
-            <LandingComponent />
+            <LandingComponent isLoggedin={isLoggedin} />
           </Route>
         </Switch>
       </div>
