@@ -14,7 +14,20 @@ const CardsListComponent = (props) => {
     return data.map((item, index) => renderCard(item, index));
   };
 
-  return <div className="cards-list-component">{renderCards()}</div>;
+  return (
+    <div className="cards-list-component">
+      {renderCards()}
+      {renderCards()}
+      {renderCards()}
+      {renderCards()}
+      {renderCards()}
+      {renderCards()}
+      {renderCards()}
+      {renderCards()}
+      {renderCards()}
+      {renderCards()}
+    </div>
+  );
 };
 
 export default CardsListComponent;
