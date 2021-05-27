@@ -8,17 +8,11 @@ import {
   Select,
   TextField,
   Typography,
+  Avatar,
 } from "@material-ui/core";
 
-// import Avatars from "./sign-in-service";
-
+import { USER_ROLES, getAvatarByRole } from "../../services/users";
 import "./sign-in-component.scss";
-
-const USER_ROLES = {
-  PLAYER: "PLAYER",
-  MANAGER: "MANAGER",
-  ADMIN: "ADMIN",
-};
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -26,6 +20,10 @@ const useStyles = makeStyles((theme) => ({
   },
   field: {
     width: "80%",
+  },
+  avatar: {
+    width: 56,
+    height: 56,
   },
 }));
 
@@ -38,7 +36,7 @@ const SignInComponent = (props) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [role, setRole] = useState(USER_ROLES.PLAYER);
-  // const [avatar, setAvatar] = useState(Avatars.AVATAR1);
+  const [avatar, setAvatar] = useState(getAvatarByRole(role));
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -50,11 +48,8 @@ const SignInComponent = (props) => {
 
   const handleRoleChange = (e) => {
     setRole(e.target.value);
+    setAvatar(getAvatarByRole(e.target.value));
   };
-
-  // const handleAvatarChange = (e) => {
-  //   setAvatar(e.target.value);
-  // };
 
   const isEmailValid = () => {
     const re =
@@ -96,7 +91,7 @@ const SignInComponent = (props) => {
         email,
         role,
         username,
-        avatar: username,
+        avatar: role,
       }),
     });
 
@@ -152,21 +147,10 @@ const SignInComponent = (props) => {
           </Select>
         </div>
 
-        {/* <div className={classes.field}>
+        <div className={classes.field}>
           <InputLabel shrink>Avatar</InputLabel>
-          <Select
-            value={avatar}
-            onChange={handleAvatarChange}
-            style={{ width: "100%" }}
-          >
-            <MenuItem value={Avatars.Avatar1}>{Avatars.Avatar1}</MenuItem>
-            <MenuItem value={Avatars.Avatar2}>{Avatars.Avatar2}</MenuItem>
-            <MenuItem value={Avatars.Avatar3}>{Avatars.Avatar3}</MenuItem>
-            <MenuItem value={Avatars.Avatar4}>{Avatars.Avatar4}</MenuItem>
-            <MenuItem value={Avatars.Avatar5}>{Avatars.Avatar5}</MenuItem>
-            <MenuItem value={Avatars.Avatar6}>{Avatars.Avatar6}</MenuItem>
-          </Select>
-        </div> */}
+          <Avatar src={avatar} className={classes.avatar}></Avatar>
+        </div>
 
         <Button
           disabled={!isInputsValid()}

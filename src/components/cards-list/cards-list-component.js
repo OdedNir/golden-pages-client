@@ -6,13 +6,15 @@ import CardComponent from "../card/card-component";
 
 import "./cards-list-component.scss";
 
+const SIZE = 6;
+
 const CardsListComponent = (props) => {
   const { user } = props;
   const [type, setType] = useState(props.type);
   const [data, setData] = useState([]);
-  const [size, setSize] = useState(6);
+  const [size, setSize] = useState(SIZE);
   const [page, setPage] = useState(0);
-  const [isMoreAvailable, setIsMoreAvailable] = useState(true);
+  const [isMoreAvailable, setIsMoreAvailable] = useState(false);
 
   const getData = async () => {
     const { space, email } = user.userId;
@@ -26,7 +28,7 @@ const CardsListComponent = (props) => {
 
     const result = await response.json();
 
-    if (result.length < 6) setIsMoreAvailable(false);
+    setIsMoreAvailable(result.length >= SIZE && result.length !== 0);
 
     result && setData([...data, ...result]);
   };
@@ -50,6 +52,7 @@ const CardsListComponent = (props) => {
   return (
     <div className="cards-list-component">
       <div className="card-list-wrapper">{renderCards()}</div>
+
       {isMoreAvailable && (
         <div className="button-wrapper" onClick={loadMore}>
           <Button>Load more</Button>

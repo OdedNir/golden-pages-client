@@ -1,8 +1,9 @@
-import { makeStyles, Typography } from "@material-ui/core";
+import { Avatar, makeStyles, Typography } from "@material-ui/core";
 import { ExitToApp } from "@material-ui/icons";
 import React from "react";
 import { useHistory } from "react-router";
 import WarnButton from "components/warn-button/warn-button";
+import { getAvatarByRole } from "../../services/users";
 
 import "./user-profile-component.scss";
 
@@ -15,9 +16,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 18,
     fontWeight: 200,
   },
-  attrValue: {
-    fontSize: 24,
-    fontWeight: 400,
+  avatar: {
+    width: 56,
+    height: 56,
   },
   logoutBotton: {
     marginBottom: 16,
@@ -63,7 +64,10 @@ const UserProfileComponent = (props) => {
 
       <div className="attr-wrapper">
         <Typography className={classes.attrName}>{"Avatar"}</Typography>
-        <Typography className={classes.attrValue}>{avatar}</Typography>
+        <Avatar
+          src={getAvatarByRole(avatar)}
+          className={classes.avatar}
+        ></Avatar>
       </div>
 
       <div className="attr-wrapper">

@@ -1,6 +1,5 @@
 import {
   makeStyles,
-  Typography,
   Drawer,
   List,
   ListItem,
