@@ -44,14 +44,25 @@ const HeaderComponent = (props) => {
           </Button>
 
           {user ? (
-            <IconButton
-              component={Link}
-              to={"/user"}
-              className={classes.accountButton}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            <div className={classes.actions}>
+              <Button
+                className={classes.actionButton}
+                component={Link}
+                to={"/createService"}
+                color="inherit"
+              >
+                Create Service
+              </Button>
+
+              <IconButton
+                component={Link}
+                to={"/user"}
+                className={classes.accountButton}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            </div>
           ) : (
             <div className={classes.actions}>
               <Button

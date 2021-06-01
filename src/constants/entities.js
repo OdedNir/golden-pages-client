@@ -11,9 +11,9 @@ export default [
     plural: "Businesses",
     Icon: Business,
   },
-  {
-    singular: "Service",
-    plural: "Services",
-    Icon: Settings,
-  },
+  // {
+  //   singular: "Service",
+  //   plural: "Services",
+  //   Icon: Settings,
+  // },
 ];

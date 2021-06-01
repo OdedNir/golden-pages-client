@@ -8,6 +8,7 @@ import SignInComponent from "./components/sign-in/sign-in-component";
 import LoginComponent from "./components/login/login-component";
 import UserProfileComponent from "./components/user-profile/user-profile-component";
 import MenuComponent from "./components/menu/menu-component";
+import CreateServiceFormComponent from "./components/create-service-form/create-service-form-component";
 
 import "./app.scss";
 
@@ -34,10 +35,10 @@ const App = () => {
             component={() => <CardsListComponent user={user} type="Business" />}
           ></Route>
 
-          <Route
+          {/* <Route
             path="/services"
             component={() => <CardsListComponent user={user} />}
-          ></Route>
+          ></Route> */}
 
           <Route path="/signIn">
             <SignInComponent setUser={setUser} />
@@ -49,6 +50,10 @@ const App = () => {
 
           <Route path="/user">
             <UserProfileComponent user={user} setUser={setUser} />
+          </Route>
+
+          <Route path="/createService">
+            <CreateServiceFormComponent user={user} />
           </Route>
 
           <Route path="/">

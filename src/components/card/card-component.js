@@ -10,15 +10,32 @@ import {
 
 import map from "lodash/map";
 import startCase from "lodash/startCase";
-import forEach from "lodash/forEach";
+import reduce from "lodash/reduce";
 
-const SMALL = 300;
+const SMALL = 350;
 const LARGE = "fit-content";
 
 const CardComponent = (props) => {
-  const { item } = props;
-  const { type, name, itemAttributes } = item;
-  const { reviews } = itemAttributes;
+  const {
+    item,
+    setIsReviewDialogOpen,
+    setCardItem,
+    user,
+    setIsEditDialogOpen,
+  } = props;
+  const { type, name, itemAttributes, createdBy } = item;
+  const { services, ratings, ...restAttributes } = itemAttributes;
+
+  // const itemAttributes = {
+  //   services,
+  //   phoneNumber,
+  //   address,
+  //   ratings,
+  //   reviews,
+  //   workingHours,
+  //   description,
+  // }
+
   const [size, setSize] = useState(SMALL);
 
   const useStyles = makeStyles((theme) => ({
@@ -40,57 +57,117 @@ const CardComponent = (props) => {
     text: {
       marginBottom: 16,
     },
+    actions: {
+      flexDirection: "column",
+      alignItems: "flex-start",
+    },
   }));
 
   const classes = useStyles();
 
-  const renderItemAttributes = () => {
-    return map(itemAttributes, (value, key) => {
-      return key == "reviews" ? null : (
+  const getSeperatedArray = (array) => {
+    return array.join(", ");
+  };
+
+  const calculateRating = () => {
+    if (ratings) return "No ratings yet!";
+    const ratingsSum = reduce(ratings, (sum, rating) => sum + rating);
+    return ratingsSum / ratings.length;
+  };
+
+  const renderMendatoryAttributes = () => {
+    return (
+      <div>
+        <Typography className={classes.title} color="textSecondary">
+          {type}
+        </Typography>
+        <Typography className={classes.text} variant="h5">
+          {name}
+        </Typography>
+        <Typography className={classes.title} color="textSecondary">
+          {"Services"}
+        </Typography>
+        <Typography className={classes.text}>
+          {getSeperatedArray(services)}
+        </Typography>
+        <Typography className={classes.title} color="textSecondary">
+          {"Rating"}
+        </Typography>
+        <Typography className={classes.text} variant="h6">
+          {calculateRating()}
+        </Typography>
+      </div>
+    );
+  };
+
+  const renderReviews = (reviews) => {
+    if (reviews) return "No reviews yet!";
+
+    return getSeperatedArray(value);
+  };
+
+  const renderRestAttributes = () => {
+    return map(restAttributes, (value, key) => {
+      return (
         <div key={key}>
           <Typography className={classes.title} color="textSecondary">
             {startCase(key)}
           </Typography>
-          <Typography className={classes.text}>{value}</Typography>
+          <Typography className={classes.text}>
+            {key == "reviews" ? renderReviews(value) : value}
+          </Typography>
         </div>
       );
     });
   };
 
-  const renderReviews = () => {
-    return forEach(reviews, (review, key) => {
-      const { rating, text } = review;
-      console.log(rating);
-      console.log(text);
-      return (
-        <div key={key}>
-          <Typography className={classes.title} color="textSecondary">
-            {`Rating: ${rating}`}
-          </Typography>
-          <Typography className={classes.text}>{text}</Typography>
-        </div>
-      );
-    });
+  const handleEdit = () => {
+    setCardItem(item);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleReview = () => {
+    setCardItem(item);
+    setIsReviewDialogOpen(true);
   };
 
   const handleClick = () => {
     setSize(size == SMALL ? LARGE : SMALL);
   };
 
+  const hasPermission = () => {
+    return (
+      user.userId.space === createdBy.userId.space &&
+      user.userId.email === createdBy.userId.email
+    );
+  };
+
   return (
     <Card className={classes.card}>
       <CardContent className={classes.content}>
-        <Typography className={classes.title} color="textSecondary">
-          {type}
-        </Typography>
-        <Typography className={classes.text} variant="h4">
-          {name}
-        </Typography>
-        {size == LARGE && renderItemAttributes()}
-        {/* {size == LARGE && renderReviews()} */}
+        {renderMendatoryAttributes()}
+        {size == LARGE && renderRestAttributes()}
       </CardContent>
-      <CardActions>
-        <Button onClick={handleClick}>
+      <CardActions className={classes.actions}>
+        {hasPermission() && (
+          <Button onClick={handleEdit} color="primary">
+            Edit Service Provider
+          </Button>
+        )}
+
+        <Button
+          style={{ marginLeft: 0, marginTop: 4 }}
+          onClick={handleReview}
+          color="primary"
+        >
+          Add Review
+        </Button>
+        <Button
+          style={{ marginLeft: 0, marginTop: 4 }}
+          onClick={handleClick}
+          color="primary"
+          variant="contained"
+        >
           {size == SMALL ? "More details" : "Less details"}
         </Button>
       </CardActions>
