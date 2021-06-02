@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { FormControl, TextField, MenuItem, Button } from "@material-ui/core";
+import {
+  FormControl,
+  TextField,
+  MenuItem,
+  Button,
+  Typography,
+} from "@material-ui/core";
+import WarnButton from "components/warn-button/warn-button";
 
 import "./create-service-form-component.scss";
 
@@ -116,11 +123,28 @@ export default function CreateServiceFormComponent(props) {
 
     const result = await response.json();
 
-    setIsEditDialogOpen(false);
+    if (result)
+      alert(
+        item ? "Service edited successfully!" : "Service added successfully!"
+      );
+
+    setIsEditDialogOpen && setIsEditDialogOpen(false);
+  };
+
+  const handleClear = () => {
+    setType("");
+    setName("");
+    setService1("");
+    setService2("");
+    setService3("");
+    setPhoneNumber("");
+    setAddress("");
+    setWorkingHours("");
+    setDescription("");
   };
 
   const isDisabled = () => {
-    return !type || !name || !service1;
+    return !type || !name || !service1 || !phoneNumber;
   };
 
   return (
@@ -137,6 +161,7 @@ export default function CreateServiceFormComponent(props) {
           label="Type"
           select
           error={!type}
+          required
         >
           <MenuItem value={TYPES.PROFESSIONAL}>{TYPES.PROFESSIONAL}</MenuItem>
           <MenuItem value={TYPES.BUSINESS}>{TYPES.BUSINESS}</MenuItem>
@@ -184,6 +209,8 @@ export default function CreateServiceFormComponent(props) {
           label="Phone Number"
           onChange={handlePhoneNumberChange}
           variant="filled"
+          error={!phoneNumber}
+          required
         ></TextField>
 
         <TextField
@@ -209,7 +236,17 @@ export default function CreateServiceFormComponent(props) {
           onChange={handleDescriptionChange}
           variant="filled"
         ></TextField>
+      </FormControl>
+      <div className="actions">
+        <WarnButton
+          className="button"
+          onClick={handleClear}
+          variant="contained"
+        >
+          Clear Fields
+        </WarnButton>
         <Button
+          className="button"
           onClick={handleClick}
           variant="contained"
           color="primary"
@@ -217,9 +254,10 @@ export default function CreateServiceFormComponent(props) {
         >
           {item ? "Edit Service" : "Add Service"}
         </Button>
-      </FormControl>
+        {isDisabled() && (
+          <Typography color="error">* Required Fields</Typography>
+        )}
+      </div>
     </div>
   );
 }
-
-// services, phoneNumber, address, workingHours, description

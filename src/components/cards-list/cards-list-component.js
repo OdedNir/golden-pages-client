@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Typography,
 } from "@material-ui/core";
 
 import CardComponent from "../card/card-component";
@@ -169,6 +170,12 @@ const CardsListComponent = (props) => {
   };
 
   const renderCards = () => {
+    if (data.length == 0)
+      return (
+        <Typography variant="h5" color="primary">
+          No results!
+        </Typography>
+      );
     return map(data, (item, index) => renderCard(item, index));
   };
 
