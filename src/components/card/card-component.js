@@ -70,9 +70,9 @@ const CardComponent = (props) => {
   };
 
   const calculateRating = () => {
-    if (ratings) return "No ratings yet!";
+    if (ratings.length == 0) return "No ratings yet!";
     const ratingsSum = reduce(ratings, (sum, rating) => sum + rating);
-    return ratingsSum / ratings.length;
+    return (ratingsSum / ratings.length).toFixed(1);
   };
 
   const renderMendatoryAttributes = () => {
@@ -101,9 +101,10 @@ const CardComponent = (props) => {
   };
 
   const renderReviews = (reviews) => {
-    if (reviews) return "No reviews yet!";
+    if (reviews.length == 0) return "No reviews yet!";
+    if (reviews.length > 3) return getSeperatedArray(reviews.slice(0, 3));
 
-    return getSeperatedArray(value);
+    return getSeperatedArray(reviews);
   };
 
   const renderRestAttributes = () => {

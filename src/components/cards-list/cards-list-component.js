@@ -140,7 +140,7 @@ const CardsListComponent = (props) => {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={() => setIsEditDialogOpen(false)} color="primary">
+          <Button onClick={() => setIsReviewDialogOpen(false)} color="primary">
             Cancel
           </Button>
           <Button onClick={handleSubmit} color="primary">
