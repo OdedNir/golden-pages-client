@@ -113,9 +113,9 @@ const CardsListComponent = (props) => {
         open={isReviewDialogOpen}
         onClose={() => setIsReviewDialogOpen(false)}
       >
-        <DialogTitle>Edit Service Provider</DialogTitle>
+        <DialogTitle>Rate Service Provider</DialogTitle>
         <DialogContent>
-          {/* <DialogContentText>Tell us what you think:</DialogContentText> */}
+          <DialogContentText>Tell us what you think:</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
